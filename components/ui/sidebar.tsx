@@ -65,7 +65,7 @@ export default function Sidebar() {
       <ul className="space-y-3 p-2">
         {aside.map((item, idx) => (
           <li key={idx} className="py-2.5">
-            <Link href="/" className="flex items-center gap-2.5">
+            <Link href="/" className="flex items-center gap-5">
               {item.icon}
               <span className="text-sm tracking-[0.48px] text-[#898989]">
                 {item.name}

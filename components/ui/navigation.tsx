@@ -1,3 +1,6 @@
+"use client";
+
+import { cn } from "@nextui-org/react";
 import {
   BellIcon,
   HomeIcon,
@@ -10,46 +13,20 @@ import {
   UsersIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cloneElement } from "react";
 
 const navDesktopLeft = [
-  {
-    name: "Home",
-    href: "/",
-    icon: <HomeIcon color="#898989" size={20} />,
-  },
-  {
-    name: "Discover",
-    href: "/discover",
-    icon: <SparklesIcon color="#898989" size={20} />,
-  },
-  {
-    name: "Search",
-    href: "/search",
-    icon: <SearchIcon color="#898989" size={20} />,
-  },
+  { name: "Home", href: "/", icon: <HomeIcon size={20} /> },
+  { name: "Discover", href: "/discover", icon: <SparklesIcon size={20} /> },
+  { name: "Search", href: "/search", icon: <SearchIcon size={20} /> },
 ];
 
 const navDesktopRight = [
-  {
-    name: "Notifications",
-    href: "/",
-    icon: <BellIcon color="#898989" size={20} />,
-  },
-  {
-    name: "Lock",
-    href: "/",
-    icon: <LockOpenIcon color="#898989" size={20} />,
-  },
-  {
-    name: "Users",
-    href: "/",
-    icon: <UsersIcon color="#898989" size={20} />,
-  },
-  {
-    name: "Settings",
-    href: "/",
-    icon: <SettingsIcon color="#898989" size={20} />,
-  },
+  { name: "Notifications", href: "/", icon: <BellIcon size={20} /> },
+  { name: "Lock", href: "/", icon: <LockOpenIcon size={20} /> },
+  { name: "Users", href: "/", icon: <UsersIcon size={20} /> },
+  { name: "Settings", href: "/", icon: <SettingsIcon size={20} /> },
 ];
 
 const navMobile = [
@@ -100,12 +77,14 @@ function NavigationMobile() {
 }
 
 function NavigationDesktop() {
+  const pathname = usePathname();
+
   return (
-    <nav className="hidden items-center justify-between pl-4 pr-2.5 lg:flex">
+    <nav className="hidden items-center justify-between py-1 pl-4 pr-2.5 lg:flex">
       <div className="flex items-center">
         <Link
           href="/"
-          className="flex items-center gap-2.5 py-4 [min-inline-size:262px]"
+          className="flex items-center gap-5 py-4 [min-inline-size:262px]"
         >
           <LibraryBigIcon color="#898989" size={20} />
           <span className="text-sm tracking-[0.48px] text-[#898989]">
@@ -115,12 +94,18 @@ function NavigationDesktop() {
 
         <ul className="flex items-center">
           {navDesktopLeft.map((item, idx) => (
-            <li key={idx} className="py-4 [min-inline-size:210px]">
-              <Link href="/" className="flex items-center gap-2.5">
-                {item.icon}
-                <span className="text-sm tracking-[0.48px] text-[#898989]">
-                  {item.name}
-                </span>
+            <li
+              key={idx}
+              className={cn(
+                "rounded-lg px-6 py-4 text-[#898989] [min-inline-size:210px]",
+                { "bg-[#111111] text-white": item.href === pathname },
+              )}
+            >
+              <Link href={item.href} className="flex items-center gap-5">
+                {cloneElement(item.icon, {
+                  color: item.href === pathname ? "#fff" : "#898989",
+                })}
+                <span className="text-sm tracking-[0.48px]">{item.name}</span>
               </Link>
             </li>
           ))}
@@ -130,7 +115,7 @@ function NavigationDesktop() {
       <ul className="flex items-center justify-end">
         {navDesktopRight.map((item, idx) => (
           <li key={idx} className="p-4">
-            <Link href="/" className="flex items-center gap-2.5">
+            <Link href="/" className="flex items-center gap-5">
               {item.icon}
             </Link>
           </li>
