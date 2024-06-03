@@ -1,18 +1,18 @@
 "use client";
 
-// import { AuthStoreProvider } from "@/providers/auth-store-provider";
+import ActiveRightSidebarProvider from "@/providers/active-right-sidebar";
 import { NextUIProvider } from "@nextui-org/react";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <NextUIProvider
-      className="relative flex h-full min-h-full flex-col lg:grid"
+      className="relative flex h-full min-h-full flex-col p-2 lg:grid lg:gap-1"
       style={{
-        gridTemplateAreas: "'header header header' 'sidebar main main'",
+        gridTemplateAreas:
+          "'header header header' 'left-sidebar main right-sidebar'",
       }}
     >
-      {/* <AuthStoreProvider>{children}</AuthStoreProvider> */}
-      {children}
+      <ActiveRightSidebarProvider>{children}</ActiveRightSidebarProvider>
     </NextUIProvider>
   );
 }

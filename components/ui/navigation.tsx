@@ -1,6 +1,7 @@
 "use client";
 
-import { cn } from "@nextui-org/react";
+import { useActiveRightSidebar } from "@/providers/active-right-sidebar";
+import { Button, cn } from "@nextui-org/react";
 import {
   BellIcon,
   HomeIcon,
@@ -23,10 +24,10 @@ const navDesktopLeft = [
 ];
 
 const navDesktopRight = [
-  { name: "Notifications", href: "/", icon: <BellIcon size={20} /> },
-  { name: "Lock", href: "/", icon: <LockOpenIcon size={20} /> },
-  { name: "Users", href: "/", icon: <UsersIcon size={20} /> },
-  { name: "Settings", href: "/", icon: <SettingsIcon size={20} /> },
+  { name: "Notifications", icon: <BellIcon size={20} /> },
+  { name: "Lock", icon: <LockOpenIcon size={20} /> },
+  { name: "Friendlist", icon: <UsersIcon size={20} /> },
+  { name: "Settings", icon: <SettingsIcon size={20} /> },
 ];
 
 const navMobile = [
@@ -78,9 +79,12 @@ function NavigationMobile() {
 
 function NavigationDesktop() {
   const pathname = usePathname();
+  const context = useActiveRightSidebar();
+
+  if (!context) return null;
 
   return (
-    <nav className="hidden items-center justify-between py-1 pl-4 pr-2.5 lg:flex">
+    <nav className="hidden items-center justify-between pl-4 pr-2.5 lg:flex">
       <div className="flex items-center">
         <Link
           href="/"
@@ -97,7 +101,7 @@ function NavigationDesktop() {
             <li
               key={idx}
               className={cn(
-                "rounded-lg px-6 py-4 text-[#898989] [min-inline-size:210px]",
+                "rounded-lg p-4 text-[#898989] [min-inline-size:210px]",
                 { "bg-[#111111] text-white": item.href === pathname },
               )}
             >
@@ -112,12 +116,20 @@ function NavigationDesktop() {
         </ul>
       </div>
 
-      <ul className="flex items-center justify-end">
+      <ul className="flex items-center justify-end gap-3">
         {navDesktopRight.map((item, idx) => (
-          <li key={idx} className="p-4">
-            <Link href="/" className="flex items-center gap-5">
-              {item.icon}
-            </Link>
+          <li key={idx}>
+            <Button
+              isIconOnly
+              variant="light"
+              aria-label={item.name}
+              onClick={() => context.onChange(item.name)}
+              className="flex items-center gap-5"
+            >
+              {cloneElement(item.icon, {
+                color: context.activeItem === item.name ? "#fff" : "#898989",
+              })}
+            </Button>
           </li>
         ))}
       </ul>
