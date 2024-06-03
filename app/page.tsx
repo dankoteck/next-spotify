@@ -17,7 +17,7 @@ export default async function Home() {
   const { items } = categoryData.categories;
 
   return (
-    <main className="space-y-[30px]">
+    <main className="relative h-full min-h-0 min-w-0 space-y-[30px] overflow-auto rounded-lg pl-4 pt-4 [grid-area:main] lg:mx-2 lg:border lg:border-[#202020] lg:px-6 lg:py-4">
       {items.map((item) => (
         <PlaylistSection key={item.id} title={item.name} categoryId={item.id} />
       ))}

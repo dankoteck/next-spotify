@@ -24,7 +24,7 @@ export default async function PlaylistSection({ title, categoryId }: Props) {
   if (data.playlists.items.length === 0) return null;
 
   return (
-    <section className="space-y-3 pl-4">
+    <section className="space-y-3">
       <div className="flex items-center justify-between">
         <h3 className="text-xl font-bold tracking-[0.48px]">{title}</h3>
         <Button isIconOnly aria-label={title} variant="light">
@@ -32,11 +32,11 @@ export default async function PlaylistSection({ title, categoryId }: Props) {
         </Button>
       </div>
 
-      <ul className="md:grid-cols-base-fr no-scrollbar flex overflow-scroll pr-4 pt-3 md:grid md:grid-flow-col md:grid-rows-1">
+      <ul className="grid-cols-base-fr no-scrollbar grid grid-flow-col grid-rows-1 overflow-scroll pt-3">
         {data.playlists.items.map((item, idx) => (
           <li
             key={idx}
-            className="group relative block h-full w-full space-y-1.5 p-1.5 [max-inline-size:170px] md:[max-inline-size:none]"
+            className="group relative block h-full w-full space-y-1.5 p-1.5 [max-inline-size:170px] lg:[max-inline-size:none]"
           >
             {/* Overlay */}
             <div className="absolute inset-0 -z-10 h-full w-full rounded-md bg-gray-100 opacity-0 transition-opacity duration-300 group-hover:opacity-10"></div>
@@ -48,7 +48,7 @@ export default async function PlaylistSection({ title, categoryId }: Props) {
                     "--image-url": `url('${item.images[0].url}')`,
                   } as CSSProperties
                 }
-                className={`relative aspect-square rounded-md bg-[image:var(--image-url)] bg-cover bg-no-repeat [min-inline-size:150px] before:absolute before:inset-0 before:-top-[6px] before:-z-[1] before:mx-auto before:aspect-square before:w-[calc(100%-6px)] before:rounded-md before:bg-contain before:bg-center before:bg-no-repeat before:opacity-30 before:bg-img-inherit after:absolute after:inset-0 after:-top-[12px] after:-z-[2] after:mx-auto after:aspect-square after:w-[calc(100%-12px)] after:rounded-md after:bg-contain after:bg-center after:bg-no-repeat after:opacity-15 after:bg-img-inherit md:[min-inline-size:170px]`}
+                className={`relative aspect-square rounded-md bg-[image:var(--image-url)] bg-cover bg-no-repeat [min-inline-size:150px] before:absolute before:inset-0 before:-top-[6px] before:-z-[1] before:mx-auto before:aspect-square before:w-[calc(100%-8px)] before:rounded-md before:bg-contain before:bg-center before:bg-no-repeat before:opacity-30 before:bg-img-inherit after:absolute after:inset-0 after:-top-[14px] after:-z-[2] after:mx-auto after:aspect-square after:w-[calc(100%-14px)] after:rounded-md after:bg-contain after:bg-center after:bg-no-repeat after:opacity-15 after:bg-img-inherit lg:[min-inline-size:170px]`}
               />
               <span className="flex items-center justify-between">
                 <span className="line-clamp-1 max-w-[120px] text-sm tracking-[0.48px]">
@@ -58,7 +58,7 @@ export default async function PlaylistSection({ title, categoryId }: Props) {
                   {item.tracks.total}
                 </span>
               </span>
-              <span className="line-clamp-2 text-xs tracking-[0.48px] text-[#898989] [min-inline-size:150px] md:[min-inline-size:170px]">
+              <span className="line-clamp-2 text-xs tracking-[0.48px] text-[#898989] [min-inline-size:150px] lg:[min-inline-size:170px]">
                 {item.description}
               </span>
             </Link>
