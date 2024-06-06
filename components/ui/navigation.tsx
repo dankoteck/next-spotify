@@ -101,11 +101,11 @@ function NavigationDesktop() {
             <li
               key={idx}
               className={cn(
-                "rounded-lg p-4 text-[#898989] [min-inline-size:210px]",
+                "rounded-lg text-[#898989] [min-inline-size:210px]",
                 { "bg-[#111111] text-white": item.href === pathname },
               )}
             >
-              <Link href={item.href} className="flex items-center gap-5">
+              <Link href={item.href} className="flex items-center gap-5 p-4">
                 {cloneElement(item.icon, {
                   color: item.href === pathname ? "#fff" : "#898989",
                 })}

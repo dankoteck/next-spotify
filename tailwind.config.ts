@@ -11,7 +11,7 @@ const config: Config = {
   theme: {
     extend: {
       gridTemplateColumns: {
-        "base-fr": "repeat(auto-fill, minmax(180px, 1fr))",
+        "base-fr": "repeat(auto-fill, minmax(170px, 1fr))",
       },
     },
   },
