@@ -81,7 +81,7 @@ export default async function Page() {
   ]);
 
   return (
-    <section className="space-y-[28px] lg:space-y-5">
+    <div className="space-y-[28px] lg:space-y-5 lg:px-4 lg:py-4 lg:pl-4 lg:pt-4">
       <h3 className="text-xl font-bold tracking-[0.48px] text-[#E0E0E0]">
         Browse all
       </h3>
@@ -122,6 +122,6 @@ export default async function Page() {
         title="TV & Movies"
         data={instrumentalPlaylist}
       />
-    </section>
+    </div>
   );
 }

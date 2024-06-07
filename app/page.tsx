@@ -41,5 +41,9 @@ async function PlaylistDetailSection({
 
   if (data.playlists.items.length === 0) return null;
 
-  return <PlaylistSection title={title} data={data} />;
+  return (
+    <div className="lg:px-4 lg:py-4 lg:pl-4 lg:pt-4">
+      <PlaylistSection title={title} data={data} />
+    </div>
+  );
 }

@@ -25,7 +25,7 @@ export default async function RootLayout({
         <Providers>
           <Navigation />
           <LeftSidebar />
-          <main className="relative mb-[84px] h-full min-h-0 min-w-0 space-y-[30px] overflow-auto rounded-lg [grid-area:main] lg:border lg:border-[#202020] lg:px-4 lg:py-4 lg:pl-4 lg:pt-4">
+          <main className="relative mb-[84px] h-full min-h-0 min-w-0 space-y-[30px] overflow-auto rounded-[10px] [grid-area:main] lg:border lg:border-[#202020]">
             {children}
           </main>
           <RightSidebar />

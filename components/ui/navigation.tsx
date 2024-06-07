@@ -64,12 +64,12 @@ function NavigationMobile() {
       <ul className="flex w-full items-center gap-8">
         {navMobile.map((item, idx) => (
           <li key={idx} className="flex-1">
-            <a href="/" className="flex flex-col items-center gap-1">
+            <Link href="/" className="flex flex-col items-center gap-1">
               {item.icon}
               <span className="text-xs tracking-[0.48px] text-[#898989]">
                 {item.name}
               </span>
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
