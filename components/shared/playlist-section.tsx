@@ -28,7 +28,7 @@ export default function PlaylistSection({
       return (
         <li
           key={idx}
-          className="[&:first-child]:pl-0] block aspect-square h-full w-full p-1.5 [max-inline-size:170px]"
+          className="block aspect-video h-full w-full flex-shrink-0 [min-block-size:100px] lg:aspect-square lg:p-1.5 lg:[max-inline-size:170px] lg:[min-block-size:initial]"
         >
           <Link
             href={`/${item.id}`}
@@ -44,7 +44,7 @@ export default function PlaylistSection({
               width={1}
               height={1}
               priority
-              className="absolute -bottom-4 -right-4 aspect-square rotate-[30deg] rounded-md object-cover [min-inline-size:105px]"
+              className="absolute left-[70%] top-[50%] aspect-square rotate-[30deg] rounded-md object-cover [min-inline-size:105px] sm:left-[80%] sm:top-[65%]"
             />
           </Link>
         </li>
@@ -85,7 +85,7 @@ export default function PlaylistSection({
   };
 
   return (
-    <section className="space-y-3">
+    <section className="space-y-5 lg:space-y-3">
       {title && (
         <div className="flex items-center justify-between">
           <h3
@@ -107,10 +107,10 @@ export default function PlaylistSection({
       )}
 
       <ul
-        className={cn(
-          "no-scrollbar grid grid-flow-col grid-cols-base-fr grid-rows-1 overflow-scroll",
-          { "pt-3": !isRenderedAsAlbum },
-        )}
+        className={cn("no-scrollbar grid overflow-scroll lg:flex", {
+          "pt-3": !isRenderedAsAlbum,
+          "grid-cols-2 gap-x-5 gap-y-3 lg:gap-0": isRenderedAsAlbum,
+        })}
       >
         {data.playlists.items.map((item, idx) => renderPlaylistItem(item, idx))}
       </ul>

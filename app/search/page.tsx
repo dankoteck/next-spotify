@@ -81,7 +81,7 @@ export default async function Page() {
   ]);
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-[28px] lg:space-y-5">
       <h3 className="text-xl font-bold tracking-[0.48px] text-[#E0E0E0]">
         Browse all
       </h3>
