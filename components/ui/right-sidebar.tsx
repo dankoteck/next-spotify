@@ -46,9 +46,8 @@ export default function RightSidebar() {
 
   return (
     <aside
-      className={cn("w-0 rounded-lg p-0 [grid-area:right-sidebar]", {
-        "w-[358px] border border-[#202020] p-5":
-          context && context.activeItem !== "",
+      className={cn("min-w-0 rounded-lg p-0 [grid-area:right-sidebar]", {
+        "border border-[#202020] p-5": context && context.activeItem !== "",
       })}
     >
       {renderContents(context.activeItem)}

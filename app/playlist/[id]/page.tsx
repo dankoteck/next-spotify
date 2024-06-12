@@ -4,6 +4,7 @@ import { PlaylistItem } from "@/types/playlist";
 import * as dayjs from "dayjs";
 import durationPlugin from "dayjs/plugin/duration";
 import relativeTimePlugin from "dayjs/plugin/relativeTime";
+import { HeartIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -26,7 +27,7 @@ async function loadData(id: string): Promise<[PlaylistItem, string[]]> {
 
   for (const item of data.tracks.items) {
     for (const artist of item.track.artists) {
-      if (artistIds.size < 10) {
+      if (artistIds.size < 5) {
         artistIds.add(artist.id);
       } else break;
     }
@@ -52,7 +53,11 @@ async function loadDataArtists(
     }
   }
 
-  return [artists.artists, Array.from(genres)];
+  const listArtists = artists.artists.toSorted(
+    (a, b) => b.popularity - a.popularity,
+  );
+
+  return [listArtists, Array.from(genres)];
 }
 
 export default async function Page({ params }: Props) {
@@ -61,13 +66,13 @@ export default async function Page({ params }: Props) {
 
   return (
     <div
-      className="grid h-full grid-cols-1 gap-6 2xl:grid-cols-[auto_370px] 2xl:gap-9"
+      className="grid h-full grid-cols-1 gap-6 px-[25px] py-[22px] lg:grid-cols-[1fr_minmax(auto,_370px)] lg:gap-2"
       style={{
         background: `linear-gradient(180deg, #1ED76040 0%, rgba(6, 6, 6, 0.47) 100%) fixed`, // `78` at the end of the color is the alpha value
       }}
     >
-      <section className="relative order-1 h-full max-h-full min-w-0 overflow-scroll pl-[15px] pr-[14px] 2xl:order-[0] 2xl:px-[25px] 2xl:py-[22px]">
-        <h1 className="text-xl font-bold text-[#E0E0E0] 2xl:text-4xl/[48.6px]">
+      <section className="relative h-full max-h-full min-w-0 overflow-scroll">
+        <h1 className="text-xl font-bold text-[#E0E0E0] lg:text-4xl/[48.6px]">
           {data.name}
         </h1>
 
@@ -94,29 +99,21 @@ export default async function Page({ params }: Props) {
           </span>
         </div>
 
-        <ul className="flex h-fit flex-col gap-1.5 text-[#e0e0e0bf]">
-          <li className="hidden items-center gap-2.5 border-b border-[#89898926] px-2.5 py-3 text-sm tracking-[0.48px] text-[#e0e0e0bf] 2xl:flex [&>*]:flex-shrink-0">
-            <span className="text-center [max-inline-size:42px] [min-inline-size:42px]">
-              #
-            </span>
-            <span className="[max-inline-size:300px] [min-inline-size:300px]">
-              Title
-            </span>
-            <span className="[max-inline-size:300px] [min-inline-size:300px]">
-              Album
-            </span>
-            <span className="[max-inline-size:300px] [min-inline-size:300px]">
-              Duration
-            </span>
+        <ul className="flex h-fit flex-col gap-3 text-[#e0e0e0bf]">
+          <li className="grid grid-cols-[minmax(auto,_42px)_minmax(auto,_400px)_minmax(auto,_400px)_minmax(auto,_70px)] items-center gap-5 border-b border-[#89898926] py-3 text-sm tracking-[0.48px] text-[#e0e0e0bf]">
+            <span className="text-center">#</span>
+            <span className="">Title</span>
+            <span className="hidden">Album</span>
+            <span className="">Duration</span>
           </li>
 
           {data.tracks.items.map((item, idx) => (
             <li key={item.track.id}>
               <Link
                 href={`/playlist/${params.id}/track/${item.track.id}`}
-                className="flex items-start gap-2.5 px-2.5 py-2 [&>*]:flex-shrink-0"
+                className="grid grid-cols-[minmax(auto,_42px)_minmax(auto,_50px)_minmax(auto,_340px)_minmax(auto,_400px)_minmax(auto,_70px)_minmax(auto,_160px)] items-center gap-5"
               >
-                <span className="hidden text-center text-base/5 tracking-[0.48px] [max-inline-size:42px] [min-inline-size:42px] 2xl:block">
+                <span className="text-center text-base/5 tracking-[0.48px]">
                   {idx + 1}
                 </span>
 
@@ -125,27 +122,31 @@ export default async function Page({ params }: Props) {
                   src={item.track.album.images[0].url}
                   width={1}
                   height={1}
-                  className="aspect-square rounded-sm object-cover [max-inline-size:51px] [min-inline-size:51px]"
+                  className="aspect-square w-full rounded-sm object-cover"
                 />
 
-                <span className="flex-col gap-1 [max-inline-size:197px] [min-inline-size:197px] 2xl:[max-inline-size:239px] 2xl:[min-inline-size:239px]">
-                  <span className="line-clamp-2 text-base/6 font-medium tracking-[0.48px] text-white">
+                <span>
+                  <span className="line-clamp-1 text-base/6 font-medium tracking-[0.48px] text-white">
                     {item.track.name}
                   </span>
 
-                  <span className="line-clamp-2 text-sm tracking-[0.48px]">
+                  <span className="line-clamp-1 text-sm tracking-[0.48px]">
                     {item.track.artists.map((artist) => artist.name).join(", ")}
                   </span>
                 </span>
 
-                <span className="line-clamp-2 hidden text-sm tracking-[0.48px] [max-inline-size:300px] [min-inline-size:300px] 2xl:block">
+                <span className="line-clamp-1 hidden text-sm tracking-[0.48px]">
                   {item.track.album.name}
                 </span>
 
-                <span className="hidden text-sm tracking-[0.48px] [max-inline-size:300px] [min-inline-size:300px] 2xl:block">
+                <span className="text-sm tracking-[0.48px]">
                   {dayjs
                     .duration(item.track.duration_ms, "milliseconds")
                     .format("m:ss")}
+                </span>
+
+                <span className="p-4">
+                  <HeartIcon color="#898989" size={24} />
                 </span>
               </Link>
             </li>
@@ -153,16 +154,17 @@ export default async function Page({ params }: Props) {
         </ul>
       </section>
 
-      <aside className="flex h-full max-h-full justify-center overflow-scroll py-[22px] 2xl:block 2xl:pr-[50px]">
+      <aside className="flex h-full max-h-full justify-center overflow-scroll py-[22px] pl-[28px] lg:block">
         <Image
           alt=""
           src={data.images[0].url}
-          className="aspect-square rounded-[10px] object-cover [min-inline-size:320px]"
+          className="aspect-square w-full rounded-[10px] object-cover"
           width={1}
           height={1}
+          priority
         />
 
-        <ul className="mt-[30px] hidden flex-wrap gap-2.5 2xl:flex">
+        <ul className="mt-[30px] hidden flex-wrap gap-2.5 lg:flex">
           {genres.map((genre, idx) => (
             <li
               className="rounded-full border border-[#e0e0e0] px-5 py-2.5 text-sm tracking-[0.48px] text-[#e0e0e0]"
@@ -173,7 +175,7 @@ export default async function Page({ params }: Props) {
           ))}
         </ul>
 
-        <ul className="mt-[30px] hidden flex-col gap-[15px] 2xl:flex">
+        <ul className="mt-[30px] hidden flex-col gap-[15px] lg:flex">
           {artists.map((artist, idx) => (
             <li key={idx}>
               <Link

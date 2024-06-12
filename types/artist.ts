@@ -6,6 +6,7 @@ export type Artist = {
     href: string;
     total: number;
   };
+  popularity: number;
   genres: string[];
   href: string;
   id: string;

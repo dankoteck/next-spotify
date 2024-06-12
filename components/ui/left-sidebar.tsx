@@ -61,7 +61,7 @@ const aside = [
 
 export default function LeftSidebar() {
   return (
-    <aside className="hidden w-[273px] px-1.5 py-0.5 [grid-area:left-sidebar] lg:block">
+    <aside className="hidden px-1.5 py-0.5 [grid-area:left-sidebar] lg:block">
       <ul className="space-y-3 p-2">
         {aside.map((item, idx) => (
           <li key={idx} className="py-2.5">
