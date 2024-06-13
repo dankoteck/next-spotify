@@ -61,13 +61,13 @@ const aside = [
 
 export default function LeftSidebar() {
   return (
-    <aside className="hidden px-1.5 py-0.5 [grid-area:left-sidebar] lg:block">
-      <ul className="space-y-3 p-2">
+    <aside className="hidden [grid-area:left-sidebar] lg:block">
+      <ul className="flex flex-col items-center gap-3 p-2 base:items-start">
         {aside.map((item, idx) => (
-          <li key={idx} className="py-2.5">
-            <Link href="/" className="flex items-center gap-5">
+          <li key={idx}>
+            <Link href="/" className="flex items-center gap-5 px-1.5 py-2.5">
               {item.icon}
-              <span className="text-sm tracking-[0.48px] text-[#898989]">
+              <span className="hidden text-sm tracking-[0.48px] text-[#898989] base:block">
                 {item.name}
               </span>
             </Link>

@@ -10,8 +10,8 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      gridTemplateColumns: {
-        "base-fr": "repeat(auto-fill, minmax(170px, 1fr))",
+      screens: {
+        base: "1440px",
       },
     },
   },
