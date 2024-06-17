@@ -86,24 +86,22 @@ function NavigationDesktop() {
   return (
     <nav className="hidden items-center justify-between pl-4 pr-2.5 lg:flex">
       <div className="flex items-center">
-        <Link
-          href="/"
-          className="flex items-center gap-5 py-4 [min-inline-size:262px]"
-        >
-          <LibraryBigIcon color="#898989" size={20} />
+        <Link href="/" className="flex w-[262px] items-center gap-5 py-4">
+          <span className="px-1.5 py-2.5">
+            <LibraryBigIcon color="#898989" size={20} />
+          </span>
           <span className="text-sm tracking-[0.48px] text-[#898989]">
             My Library
           </span>
         </Link>
 
-        <ul className="flex items-center">
+        <ul className="grid grid-cols-[repeat(3,_minmax(auto,_210px))] items-center">
           {navDesktopLeft.map((item, idx) => (
             <li
               key={idx}
-              className={cn(
-                "rounded-lg text-[#898989] [min-inline-size:210px]",
-                { "bg-[#111111] text-white": item.href === pathname },
-              )}
+              className={cn("rounded-lg text-[#898989]", {
+                "bg-[#111111] text-white": item.href === pathname,
+              })}
             >
               <Link href={item.href} className="flex items-center gap-5 p-4">
                 {cloneElement(item.icon, {

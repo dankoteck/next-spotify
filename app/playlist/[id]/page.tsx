@@ -67,8 +67,8 @@ export default async function Page({ params }: Props) {
   const [artists, genres] = await loadDataArtists(artistIds);
 
   return (
-    <div className="grid h-full grid-cols-[1fr_minmax(auto,_248px)] gap-6 bg-[linear-gradient(180deg,_#1ED76040_0%,_#06060678_100%)] bg-fixed px-[25px] py-[22px] lg:gap-2 base:grid-cols-[1fr_minmax(auto,_370px)]">
-      <section className="relative h-full max-h-full min-w-0 overflow-auto">
+    <div className="grid h-full grid-cols-1 gap-6 bg-[linear-gradient(180deg,_#1ED76040_0%,_#06060678_100%)] bg-fixed px-[15px] pt-[22px] lg:grid-cols-[1fr_minmax(auto,_248px)] xl:gap-2 xl:px-[25px] xl:py-[22px] base:grid-cols-[1fr_minmax(auto,_370px)]">
+      <section className="lg:order-0 relative order-1 h-full max-h-full min-w-0 overflow-auto">
         <h1 className="text-xl font-bold text-[#E0E0E0] lg:text-4xl/[48.6px]">
           {data.name}
         </h1>
@@ -100,11 +100,11 @@ export default async function Page({ params }: Props) {
         <TableTracks data={data} />
       </section>
 
-      <aside className="flex h-full max-h-full justify-center overflow-y-auto py-[22px] pl-[28px] lg:block">
+      <aside className="order-0 flex h-full max-h-full flex-col justify-center lg:order-1 lg:justify-start lg:overflow-y-auto xl:py-[22px] xl:pl-[28px]">
         <Image
           alt=""
           src={data.images[0].url}
-          className="aspect-square w-full rounded-[10px] object-cover"
+          className="mx-auto aspect-square w-[54%] max-w-[25rem] rounded-[10px] object-cover lg:w-full lg:max-w-full"
           width={1}
           height={1}
           priority

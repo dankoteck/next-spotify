@@ -11,6 +11,7 @@
   "dependencies": {
     "@nextui-org/react": "^2.4.1",
     "@types/react-slick": "^0.23.13",
+    "@uidotdev/usehooks": "^2.4.1",
     "class-variance-authority": "^0.7.0",
     "dayjs": "^1.11.11",
     "framer-motion": "^11.2.10",

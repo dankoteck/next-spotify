@@ -11,10 +11,11 @@ import {
   TableRow,
   User,
 } from "@nextui-org/react";
+import { useMediaQuery } from "@uidotdev/usehooks";
 import * as dayjs from "dayjs";
 import durationPlugin from "dayjs/plugin/duration";
 import relativeTimePlugin from "dayjs/plugin/relativeTime";
-import { HeartIcon } from "lucide-react";
+import { EllipsisIcon, HeartIcon } from "lucide-react";
 import { useCallback, useMemo } from "react";
 
 dayjs.extend(durationPlugin);
@@ -24,13 +25,6 @@ type Props = {
   data: PlaylistItem;
 };
 type CellData = ReturnType<typeof mapFn>;
-
-const columns = [
-  { key: "order", label: "#" },
-  { key: "title", label: "Title" },
-  { key: "album", label: "Album" },
-  { key: "duration", label: "Duration" },
-];
 
 const mapFn = (item: TrackItem, idx: number) => ({
   order: idx + 1,
@@ -44,11 +38,40 @@ const mapFn = (item: TrackItem, idx: number) => ({
 });
 
 export default function TableTracks({ data }: Props) {
+  const isExtraSmallDevice = useMediaQuery(
+    "only screen and (max-width : 640px)",
+  );
+  const isSmallDevice = useMediaQuery("only screen and (max-width: 1023px)");
+  const isMediumDevice = useMediaQuery(
+    "only screen and (min-width: 1024px) and (max-width: 1279px)",
+  );
+
+  const columns = useMemo(() => {
+    if (isMediumDevice) {
+      return [
+        { key: "title", label: "Title" },
+        { key: "album", label: "Album" },
+        { key: "action", label: "" },
+      ];
+    }
+
+    if (isSmallDevice) {
+      return [
+        { key: "title", label: "Title" },
+        { key: "action", label: "" },
+      ];
+    }
+
+    return [
+      { key: "order", label: "#" },
+      { key: "title", label: "Title" },
+      { key: "album", label: "Album" },
+      { key: "duration", label: "Duration" },
+    ];
+  }, [isMediumDevice, isSmallDevice]);
+
   const rows = useMemo(
-    () =>
-      data.tracks.items
-        .filter((item) => item.track)
-        .map((item, idx) => mapFn(item, idx)),
+    () => data.tracks.items.filter((item) => item.track).map(mapFn),
     [data.tracks.items],
   );
 
@@ -93,6 +116,8 @@ export default function TableTracks({ data }: Props) {
               </span>
             </div>
           );
+        case "action":
+          return <EllipsisIcon color="#898989" size={24} />;
         default:
           return cellData;
       }
@@ -106,6 +131,7 @@ export default function TableTracks({ data }: Props) {
       shadow="none"
       aria-label="Playlist Tracks"
       removeWrapper
+      hideHeader={isExtraSmallDevice}
     >
       <TableHeader columns={columns}>
         {(column) => (
