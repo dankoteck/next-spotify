@@ -26,10 +26,12 @@ async function loadData(id: string): Promise<[PlaylistItem, string[]]> {
   const artistIds = new Set<string>();
 
   for (const item of data.tracks.items) {
-    for (const artist of item.track.artists) {
-      if (artistIds.size < 5) {
-        artistIds.add(artist.id);
-      } else break;
+    if (item.track) {
+      for (const artist of item.track.artists) {
+        if (artistIds.size < 5) {
+          artistIds.add(artist.id);
+        } else break;
+      }
     }
   }
 
@@ -65,7 +67,7 @@ export default async function Page({ params }: Props) {
   const [artists, genres] = await loadDataArtists(artistIds);
 
   return (
-    <div className="base:grid-cols-[1fr_minmax(auto,_370px)] grid h-full grid-cols-[1fr_minmax(auto,_248px)] gap-6 bg-[linear-gradient(180deg,_#1ED76040_0%,_#06060678_100%)] bg-fixed px-[25px] py-[22px] lg:gap-2">
+    <div className="grid h-full grid-cols-[1fr_minmax(auto,_248px)] gap-6 bg-[linear-gradient(180deg,_#1ED76040_0%,_#06060678_100%)] bg-fixed px-[25px] py-[22px] lg:gap-2 base:grid-cols-[1fr_minmax(auto,_370px)]">
       <section className="relative h-full max-h-full min-w-0 overflow-auto">
         <h1 className="text-xl font-bold text-[#E0E0E0] lg:text-4xl/[48.6px]">
           {data.name}
@@ -85,7 +87,8 @@ export default async function Page({ params }: Props) {
             {dayjs
               .duration(
                 data.tracks.items.reduce(
-                  (acc, item) => acc + item.track.duration_ms,
+                  (acc, item) =>
+                    acc + (item.track ? item.track.duration_ms : 0),
                   0,
                 ),
                 "milliseconds",
@@ -107,10 +110,10 @@ export default async function Page({ params }: Props) {
           priority
         />
 
-        <ul className="base:mt-[30px] mt-5 hidden flex-wrap gap-2.5 lg:flex">
+        <ul className="mt-5 hidden flex-wrap gap-2.5 lg:flex base:mt-[30px]">
           {genres.map((genre, idx) => (
             <li
-              className="base:px-5 base:py-2.5 base:text-sm rounded-full border border-[#e0e0e0] px-2.5 py-1.5 text-xs tracking-[0.48px] text-[#e0e0e0]"
+              className="rounded-full border border-[#e0e0e0] px-2.5 py-1.5 text-xs tracking-[0.48px] text-[#e0e0e0] base:px-5 base:py-2.5 base:text-sm"
               key={idx}
             >
               {genre}
@@ -118,21 +121,21 @@ export default async function Page({ params }: Props) {
           ))}
         </ul>
 
-        <ul className="base:mt-[30px] mt-5 hidden flex-col gap-[15px] lg:flex">
+        <ul className="mt-5 hidden flex-col gap-[15px] lg:flex base:mt-[30px]">
           {artists.map((artist, idx) => (
             <li key={idx}>
               <Link
                 href={`/artist/${artist.id}`}
-                className="base:gap-5 flex items-center gap-3 text-[#E0E0E0]"
+                className="flex items-center gap-3 text-[#E0E0E0] base:gap-5"
               >
                 <Image
                   alt=""
                   src={artist.images[0].url}
                   width={1}
                   height={1}
-                  className="base:size-[60px] aspect-square size-[52px] rounded-full object-cover"
+                  className="aspect-square size-[52px] rounded-full object-cover base:size-[60px]"
                 />
-                <span className="base:text-base text-sm font-medium tracking-[0.48px] text-[#898989]">
+                <span className="text-sm font-medium tracking-[0.48px] text-[#898989] base:text-base">
                   {artist.name}
                 </span>
               </Link>

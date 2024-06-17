@@ -10,14 +10,12 @@ import {
   TableHeader,
   TableRow,
   User,
-  getKeyValue,
 } from "@nextui-org/react";
 import * as dayjs from "dayjs";
 import durationPlugin from "dayjs/plugin/duration";
 import relativeTimePlugin from "dayjs/plugin/relativeTime";
 import { HeartIcon } from "lucide-react";
-import Image from "next/image";
-import { Key, useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 dayjs.extend(durationPlugin);
 dayjs.extend(relativeTimePlugin);
@@ -47,7 +45,10 @@ const mapFn = (item: TrackItem, idx: number) => ({
 
 export default function TableTracks({ data }: Props) {
   const rows = useMemo(
-    () => data.tracks.items.map((item, idx) => mapFn(item, idx)),
+    () =>
+      data.tracks.items
+        .filter((item) => item.track)
+        .map((item, idx) => mapFn(item, idx)),
     [data.tracks.items],
   );
 
