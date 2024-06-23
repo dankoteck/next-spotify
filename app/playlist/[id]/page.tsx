@@ -1,5 +1,5 @@
 import TableTracks from "@/components/shared/table-tracks";
-import { getHeaders } from "@/lib/utils";
+import { getGenres, getHeaders } from "@/lib/utils";
 import { Artist } from "@/types/artist";
 import { PlaylistItem } from "@/types/playlist";
 import * as dayjs from "dayjs";
@@ -47,19 +47,11 @@ async function loadDataArtists(
   );
 
   const artists = (await res.json()) as { artists: Artist[] };
-  const genres = new Set<string>();
-
-  for (const artist of artists.artists) {
-    for (const genre of artist.genres) {
-      genres.add(genre.toUpperCase());
-    }
-  }
-
   const listArtists = artists.artists.toSorted(
     (a, b) => b.popularity - a.popularity,
   );
 
-  return [listArtists, Array.from(genres)];
+  return [listArtists, getGenres(artists.artists)];
 }
 
 export default async function Page({ params }: Props) {

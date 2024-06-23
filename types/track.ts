@@ -29,12 +29,11 @@ export type TrackAddedBy = {
 };
 
 export type TrackItem = {
-  added_at: string;
-  added_by: TrackAddedBy;
-  is_local: boolean;
   track: {
     album: Album;
     artists: Artist[];
+    added_at: string;
+    added_by: TrackAddedBy;
     disc_number: number;
     duration_ms: number;
     explicit: boolean;

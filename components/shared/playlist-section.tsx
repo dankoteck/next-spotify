@@ -1,12 +1,11 @@
 "use client";
 
-import { shuffleArray } from "@/lib/utils";
 import { Playlist, PlaylistItem } from "@/types/playlist";
 import { Button, cn } from "@nextui-org/react";
 import { EllipsisIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { CSSProperties, useMemo, useState } from "react";
+import { CSSProperties, useMemo } from "react";
 
 type Props = {
   as?: "ghost" | "album";

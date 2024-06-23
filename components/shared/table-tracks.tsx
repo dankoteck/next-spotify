@@ -1,5 +1,6 @@
 "use client";
 
+import { getTrackListeningTime } from "@/lib/utils";
 import { PlaylistItem } from "@/types/playlist";
 import { TrackItem } from "@/types/track";
 import {
@@ -12,14 +13,9 @@ import {
   User,
 } from "@nextui-org/react";
 import { useMediaQuery } from "@uidotdev/usehooks";
-import * as dayjs from "dayjs";
-import durationPlugin from "dayjs/plugin/duration";
-import relativeTimePlugin from "dayjs/plugin/relativeTime";
 import { EllipsisIcon, HeartIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
-
-dayjs.extend(durationPlugin);
-dayjs.extend(relativeTimePlugin);
 
 type Props = {
   data: PlaylistItem;
@@ -27,17 +23,17 @@ type Props = {
 type CellData = ReturnType<typeof mapFn>;
 
 const mapFn = (item: TrackItem, idx: number) => ({
+  id: item.track.id,
   order: idx + 1,
   thumbnail: item.track.album.images[0].url,
   title: item.track.name,
   artist: item.track.artists.map((artist) => artist.name).join(", "),
   album: item.track.album.name,
-  duration: dayjs
-    .duration(item.track.duration_ms, "milliseconds")
-    .format("m:ss"),
+  duration: getTrackListeningTime(item.track.duration_ms),
 });
 
 export default function TableTracks({ data }: Props) {
+  const router = useRouter();
   const isExtraSmallDevice = useMediaQuery(
     "only screen and (max-width : 640px)",
   );
@@ -73,6 +69,13 @@ export default function TableTracks({ data }: Props) {
   const rows = useMemo(
     () => data.tracks.items.filter((item) => item.track).map(mapFn),
     [data.tracks.items],
+  );
+
+  const handleRowClick = useCallback(
+    (item: CellData) => {
+      router.push(`/track/${item.id}`);
+    },
+    [router],
   );
 
   const renderCell = useCallback(
@@ -146,7 +149,7 @@ export default function TableTracks({ data }: Props) {
 
       <TableBody className="text-[#e0e0e0bf]" items={rows}>
         {(item) => (
-          <TableRow key={item.order}>
+          <TableRow key={item.order} onClick={handleRowClick.bind(null, item)}>
             {(columnKey) => (
               <TableCell align={columnKey === "order" ? "right" : "left"}>
                 {renderCell(item, columnKey)}
